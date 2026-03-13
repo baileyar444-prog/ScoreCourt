@@ -33,7 +33,7 @@ const Store = () => {
           font-weight: 950;
           letter-spacing: -0.02em;
           margin: 0 0 16px 0;
-          background: linear-gradient(135deg, #ffffff, #a0a5b5);
+          background: linear-gradient(135deg, #ffffff, rgba(255,255,255,0.7));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -49,8 +49,9 @@ const Store = () => {
         .sc-hardware-section {
           width: 100%;
           max-width: 900px;
-          background: rgba(17, 24, 39, 0.6);
-          border: 1px solid rgba(145, 203, 35, 0.3);
+          /* Charcoal base with Dark Green tint */
+          background: linear-gradient(135deg, rgba(53, 56, 57, 0.8), rgba(10, 58, 37, 0.4));
+          border: 1px solid rgba(145, 203, 35, 0.4);
           border-radius: 24px;
           padding: 40px;
           display: flex;
@@ -60,7 +61,8 @@ const Store = () => {
           -webkit-backdrop-filter: blur(20px);
           position: relative;
           overflow: hidden;
-          margin-bottom: 60px; /* Pushes the pricing grid down */
+          margin-bottom: 60px;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         @media (max-width: 768px) {
@@ -71,8 +73,8 @@ const Store = () => {
           position: absolute;
           top: -50px;
           right: -50px;
-          width: 200px;
-          height: 200px;
+          width: 250px;
+          height: 250px;
           background: radial-gradient(circle, rgba(145, 203, 35, 0.15) 0%, transparent 70%);
           pointer-events: none;
         }
@@ -80,19 +82,20 @@ const Store = () => {
         .sc-hardware-image {
           flex: 0 0 200px;
           height: 200px;
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.4);
           border-radius: 16px;
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid rgba(145, 203, 35, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 64px;
+          box-shadow: inset 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .sc-hardware-content { flex: 1; }
         
         .sc-hardware-kicker {
-          color: #91cb23;
+          color: #91cb23; /* Brand Green */
           font-weight: 900;
           font-size: 13px;
           letter-spacing: 0.1em;
@@ -100,21 +103,27 @@ const Store = () => {
           margin-bottom: 8px;
         }
 
-        .sc-hardware-title { font-size: 32px; font-weight: 900; margin: 0 0 12px 0; }
-        .sc-hardware-desc { font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.5; margin: 0 0 24px 0; }
+        .sc-hardware-title { font-size: 32px; font-weight: 900; margin: 0 0 12px 0; color: #ffffff; }
+        .sc-hardware-desc { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.5; margin: 0 0 24px 0; }
         
         .sc-btn-clicker {
           display: inline-block;
-          background: #91cb23;
-          color: #142760;
+          background: linear-gradient(135deg, #91cb23, #0a3a25);
+          color: #ffffff;
           padding: 16px 32px;
           border-radius: 12px;
           font-size: 16px;
           font-weight: 900;
           text-decoration: none;
-          transition: transform 0.2s;
+          transition: transform 0.2s, box-shadow 0.2s;
+          box-shadow: 0 8px 20px rgba(145, 203, 35, 0.2);
+          border: 1px solid #91cb23;
         }
-        .sc-btn-clicker:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .sc-btn-clicker:hover { 
+          transform: translateY(-2px); 
+          filter: brightness(1.1);
+          box-shadow: 0 12px 24px rgba(145, 203, 35, 0.3);
+        }
 
         /* SOFTWARE PRICING GRID */
         .sc-pricing-grid {
@@ -127,7 +136,7 @@ const Store = () => {
         }
 
         .sc-plan-card {
-          background: rgba(17, 24, 39, 0.4);
+          background: rgba(53, 56, 57, 0.4); /* Charcoal Soft */
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 24px;
           padding: 40px;
@@ -138,33 +147,35 @@ const Store = () => {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           position: relative;
           overflow: hidden;
+          box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .sc-plan-card.pro {
-          background: rgba(20, 39, 96, 0.3);
-          border: 1px solid rgba(11, 99, 246, 0.4);
-          box-shadow: 0 24px 60px rgba(11, 99, 246, 0.15);
+          background: linear-gradient(180deg, rgba(20, 39, 96, 0.8), rgba(20, 39, 96, 0.4)); /* Dark Blue */
+          border: 1px solid rgba(11, 99, 246, 0.5); /* Brand Blue Border */
+          box-shadow: 0 24px 60px rgba(11, 99, 246, 0.2);
           transform: translateY(-10px);
         }
 
-        .sc-plan-card:hover { transform: translateY(-5px); }
+        .sc-plan-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .sc-plan-card.pro:hover {
           transform: translateY(-15px);
-          box-shadow: 0 32px 70px rgba(11, 99, 246, 0.25);
+          box-shadow: 0 32px 70px rgba(11, 99, 246, 0.3);
         }
 
         .sc-pro-badge {
           position: absolute;
           top: 0;
           right: 40px;
-          background: linear-gradient(135deg, #f39c12, #d35400);
-          color: #fff;
+          background: #0b63f6; /* Brand Blue */
+          color: #ffffff;
           font-size: 12px;
           font-weight: 900;
           padding: 8px 16px;
           border-radius: 0 0 12px 12px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
+          box-shadow: 0 4px 12px rgba(11, 99, 246, 0.4);
         }
 
         .sc-plan-name { font-size: 24px; font-weight: 800; margin: 0 0 8px 0; }
@@ -201,9 +212,9 @@ const Store = () => {
           line-height: 1.4;
         }
 
-        .sc-feature-icon { color: #91cb23; font-size: 18px; flex-shrink: 0; }
+        .sc-feature-icon { color: #ffffff; font-size: 18px; flex-shrink: 0; font-weight: bold; }
         .sc-feature-icon.pro { color: #0b63f6; }
-        .sc-feature-icon.missing { color: rgba(255,255,255,0.2); }
+        .sc-feature-icon.missing { color: rgba(255,255,255,0.2); font-weight: normal; }
 
         .sc-btn-store {
           width: 100%;
@@ -218,13 +229,13 @@ const Store = () => {
           border: none;
         }
 
-        .sc-btn-free { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
-        .sc-btn-free:hover { background: rgba(255,255,255,0.15); }
+        .sc-btn-free { background: rgba(53, 56, 57, 0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+        .sc-btn-free:hover { background: #353839; border-color: rgba(255,255,255,0.4); }
         
         .sc-btn-pro { background: linear-gradient(135deg, #0b63f6, #142760); color: #ffffff; box-shadow: 0 8px 20px rgba(11, 99, 246, 0.3); }
-        .sc-btn-pro:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .sc-btn-pro:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(11, 99, 246, 0.4); }
         
-        .sc-btn-disabled { background: rgba(145, 203, 35, 0.15); color: #91cb23; border: 1px solid rgba(145, 203, 35, 0.3); cursor: default; }
+        .sc-btn-disabled { background: rgba(11, 99, 246, 0.15); color: #0b63f6; border: 1px solid rgba(11, 99, 246, 0.3); cursor: default; }
       `}</style>
 
       <div className="sc-store-header">
@@ -234,7 +245,7 @@ const Store = () => {
         </p>
       </div>
 
-      {/* HARDWARE SECTION - THE CLICKER (MOVED TO TOP) */}
+      {/* HARDWARE SECTION - THE CLICKER */}
       <div className="sc-hardware-section">
         <div className="sc-hardware-glow"></div>
         <div className="sc-hardware-image">
@@ -305,7 +316,7 @@ const Store = () => {
         {/* PRO PLAN */}
         <div className="sc-plan-card pro">
           <div className="sc-pro-badge">Most Popular</div>
-          <h2 className="sc-plan-name">ScoreCourt Pro</h2>
+          <h2 className="sc-plan-name" style={{ color: "#0b63f6" }}>ScoreCourt Pro</h2>
           <div className="sc-plan-price">
             <span className="sc-plan-currency">$</span>9<span className="sc-plan-period"> AUD /mo</span>
           </div>

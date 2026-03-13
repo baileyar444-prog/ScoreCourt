@@ -10,13 +10,15 @@
   --red: #D32F2F;
 
   /* UI Colors */
-  --bg: #070b16;
-  --panel: rgba(255, 255, 255, 0.06);
-  --panelSoft: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.12);
+  --bg: var(--black);
+  /* Charcoal with opacity for panels */
+  --panel: rgba(53, 56, 57, 0.45); 
+  --panelSoft: rgba(53, 56, 57, 0.25);
+  /* Dark Blue with opacity for borders */
+  --border: rgba(20, 39, 96, 0.8); 
   
   /* Text */
-  --text: rgba(255, 255, 255, 0.92);
+  --text: rgba(255, 255, 255, 0.95);
   --muted: rgba(255, 255, 255, 0.65);
 
   /* Spacing & Radii */
@@ -43,12 +45,13 @@ body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
+  /* Branded Background Gradient */
   background: 
-    radial-gradient(900px 420px at 12% 8%, rgba(11, 99, 246, 0.28), transparent 60%),
-    radial-gradient(700px 420px at 86% 10%, rgba(145, 203, 35, 0.18), transparent 60%),
-    radial-gradient(900px 520px at 50% 112%, rgba(20, 39, 96, 0.55), transparent 55%),
+    radial-gradient(900px 420px at 12% 8%, rgba(11, 99, 246, 0.20), transparent 60%),
+    radial-gradient(700px 420px at 86% 10%, rgba(145, 203, 35, 0.12), transparent 60%),
+    radial-gradient(900px 520px at 50% 112%, rgba(20, 39, 96, 0.60), transparent 55%),
     var(--bg);
-  background-attachment: fixed; /* Keeps the gradient stable on scroll */
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -82,11 +85,12 @@ nav {
   align-items: center;
   padding: 12px 18px;
   border-radius: 18px;
-  background: rgba(20, 25, 45, 0.65);
+  /* Dark Blue Glass */
+  background: rgba(20, 39, 96, 0.65);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.45), inset 0 1px rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 1px rgba(255,255,255,0.05);
 }
 
 .nav-links {
@@ -134,9 +138,9 @@ nav {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: 0 18px 45px rgba(0,0,0,0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .card.soft {
@@ -174,8 +178,8 @@ nav {
   justify-content: center;
   padding: 12px 20px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(53, 56, 57, 0.4); /* Charcoal button background */
   color: var(--text);
   font-weight: 700;
   font-size: 0.95rem;
@@ -185,9 +189,10 @@ nav {
 }
 
 .btn:hover:not(:disabled) {
-  background: rgba(255,255,255,0.15);
+  background: rgba(53, 56, 57, 0.8);
+  border-color: rgba(255,255,255,0.3);
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4);
 }
 
 .btn:active:not(:disabled) {
@@ -215,6 +220,7 @@ nav {
 .btnGhost {
   background: transparent;
   box-shadow: none;
+  border-color: rgba(255,255,255,0.1);
 }
 
 .btnGhost:hover:not(:disabled) {
@@ -241,7 +247,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   padding: 20px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
+  background: rgba(53, 56, 57, 0.3); /* Charcoal tint */
   display: flex;
   flex-direction: column;
 }
@@ -328,7 +334,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--panel);
+  background: var(--panelSoft);
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--muted);
@@ -349,7 +355,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   height: 24px;
   border-radius: 6px;
   border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(0,0,0,0.3);
+  background: var(--charcoal);
   color: var(--text);
   font-weight: 700;
   font-size: 0.75rem;
@@ -408,7 +414,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .app-divider {
   width: 100%;
   height: 1px;
-  background: var(--border);
+  background: rgba(255,255,255,0.1);
   margin: 4px 0;
 }
 
@@ -449,8 +455,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   width: 100%;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.4);
   color: var(--text);
   font-weight: 600;
   font-size: 1rem;
@@ -458,7 +464,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .sc-select:hover, .sc-input:hover {
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.6);
 }
 
 .sc-select:focus, .sc-input:focus {
@@ -476,7 +482,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.3);
   padding: 6px;
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -499,10 +505,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .segBtn.isOn {
-  background: var(--panel);
+  background: var(--charcoal);
   color: var(--text);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 .segBtn:disabled {
@@ -560,13 +566,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .app-liveCard {
-  border-color: rgba(11, 99, 246, 0.3);
-  box-shadow: 0 0 40px rgba(11, 99, 246, 0.1);
+  border-color: rgba(11, 99, 246, 0.4);
+  box-shadow: 0 0 40px rgba(11, 99, 246, 0.15);
 }
 
 .app-winnerCard {
-  border-color: rgba(145, 203, 35, 0.4);
-  background: rgba(145, 203, 35, 0.05);
+  border-color: rgba(145, 203, 35, 0.5);
+  background: rgba(145, 203, 35, 0.08);
 }
 
 /* ============================= */

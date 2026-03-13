@@ -56,6 +56,12 @@ const Home = () => {
           color: #ffffff; 
         }
 
+        /* --- ACCESSIBILITY FOCUS --- */
+        :focus-visible {
+          outline: 2px solid #91cb23;
+          outline-offset: 4px;
+        }
+
         /* --- HERO SECTION --- */
         .sc-hero {
           border-radius: 22px;
@@ -126,20 +132,28 @@ const Home = () => {
           font-weight: 900;
           background: rgba(255,255,255,.06);
           box-shadow: 0 10px 26px rgba(0,0,0,.25);
-          transition: transform .15s ease, filter .15s ease;
+          transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
           cursor: pointer;
           user-select: none;
         }
         .sc-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
         .sc-btn:active { transform: translateY(0px) scale(.98); }
 
-        .sc-btnBlue { background: linear-gradient(180deg, #0b63f6, rgba(11,99,246,.72)); border-color: rgba(255,255,255,.18); }
-        .sc-btnGreen { background: linear-gradient(180deg, #91cb23, rgba(145,203,35,.68)); color: #000000; }
+        .sc-btnBlue { 
+          background: linear-gradient(180deg, #0b63f6, rgba(11,99,246,.72)); 
+          border-color: rgba(255,255,255,.18); 
+          box-shadow: 0 6px 20px rgba(11, 99, 246, 0.35);
+        }
+        .sc-btnGreen { 
+          background: linear-gradient(180deg, #91cb23, rgba(145,203,35,.68)); 
+          color: #000000; 
+          box-shadow: 0 6px 20px rgba(145, 203, 35, 0.35);
+        }
         .sc-btnGhost { background: rgba(255,255,255,.06); }
 
         .sc-panel {
           border-radius: 18px;
-          border: 1px solid #0b63f6; /* Blue outline */
+          border: 1px solid rgba(255,255,255,.12); /* Changed from #0b63f6 */
           background: rgba(0,0,0,.16);
           padding: 24px;
           display: grid;
@@ -167,27 +181,6 @@ const Home = () => {
         .sc-placeholder b { font-weight: 950; color: #91cb23; }
         .sc-placeholder span { display: block; opacity: .7; font-size: 13px; }
 
-        .sc-trustRow {
-          margin-top: 24px;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-        @media (min-width: 600px) { .sc-trustRow { grid-template-columns: 1fr 1fr; } }
-        @media (min-width: 1024px) { .sc-trustRow { grid-template-columns: 1fr 1fr 1fr 1fr; } }
-
-        .sc-trustChip {
-          border-radius: 14px;
-          border: 1px solid rgba(255,255,255,.12);
-          background: rgba(0,0,0,.14);
-          padding: 12px 14px;
-          box-shadow: 0 10px 24px rgba(0,0,0,.16);
-          display: grid;
-          gap: 4px;
-        }
-        .sc-trustChip b { font-weight: 950; font-size: 13.5px; }
-        .sc-trustChip span { opacity: .75; font-weight: 650; font-size: 12.8px; line-height: 1.35; }
-
         .sc-kpiRow {
           display: grid;
           grid-template-columns: 1fr;
@@ -204,6 +197,12 @@ const Home = () => {
           box-shadow: 0 10px 24px rgba(0,0,0,.20);
           display: grid;
           gap: 6px;
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; /* Added hover transition */
+        }
+        .sc-kpi:hover {
+          transform: translateY(-4px);
+          border-color: rgba(11, 99, 246, 0.4);
+          box-shadow: 0 16px 32px rgba(0,0,0,.25);
         }
         .sc-kpi b { font-size: 18px; font-weight: 950; }
         .sc-kpi span { opacity: .75; font-weight: 650; line-height: 1.45; font-size: 14px; }
@@ -262,9 +261,10 @@ const Home = () => {
           overflow: hidden;
         }
         .sc-sportCard:hover {
-          transform: translateY(-2px);
+          transform: translateY(-4px);
           filter: brightness(1.1);
-          border-color: rgba(255,255,255,.3);
+          border-color: rgba(255,255,255,.4);
+          box-shadow: 0 14px 28px rgba(0,0,0,.3);
         }
         .tone-blue { background: radial-gradient(600px 220px at 30% 20%, rgba(11,99,246,.42), transparent 62%), rgba(17,24,39,.36); }
         .tone-green { background: radial-gradient(600px 220px at 30% 20%, rgba(145,203,35,.34), transparent 62%), rgba(17,24,39,.36); }
@@ -290,6 +290,12 @@ const Home = () => {
           display: grid;
           gap: 8px;
           min-height: 140px;
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .sc-perfectCard:hover {
+          transform: translateY(-4px);
+          border-color: rgba(11, 99, 246, 0.4);
+          box-shadow: 0 16px 32px rgba(0,0,0,.25);
         }
         .sc-perfectCard b { font-weight: 950; font-size: 16px; }
         .sc-perfectCard span { opacity: .78; font-weight: 650; line-height: 1.45; font-size: 13.5px; }
@@ -305,38 +311,72 @@ const Home = () => {
           gap: 8px;
         }
 
+        /* --- REDESIGNED 'HOW IT WORKS' GRID --- */
         .sc-stepsGrid {
-          margin-top: 24px;
+          margin-top: 40px;
           display: grid;
           grid-template-columns: 1fr;
-          gap: 16px;
+          gap: 24px;
+          position: relative;
         }
-        @media (min-width: 900px) { .sc-stepsGrid { grid-template-columns: 1fr 1fr 1fr; } }
+        @media (min-width: 900px) { 
+          .sc-stepsGrid { 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 32px; 
+          } 
+        }
 
         .sc-stepCard {
-          border-radius: 16px;
+          border-radius: 20px;
           border: 1px solid rgba(255,255,255,.12);
-          background: rgba(0,0,0,.14);
-          padding: 16px;
-          box-shadow: 0 10px 24px rgba(0,0,0,.18);
-          display: grid;
-          grid-template-columns: 44px 1fr;
+          background: rgba(17,24,39,.6);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          padding: 32px 24px;
+          box-shadow: 0 14px 34px rgba(0,0,0,.25);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
           gap: 16px;
-          align-items: start;
+          position: relative;
+          z-index: 1;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .sc-stepCard:hover {
+          transform: translateY(-6px);
+          border-color: rgba(145,203,35,0.4);
         }
         
+        /* Fixed Circle Rendering */
         .sc-stepNum {
-          width: 44px;
-          height: 44px;
-          border-radius: 14px;
-          display: grid;
-          place-items: center;
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-weight: 950;
-          font-size: 20px;
+          font-size: 28px;
           color: #ffffff;
-          background: #0b63f6; /* Added brand blue colour */
-          box-shadow: 0 4px 12px rgba(11,99,246,0.3);
+          background: linear-gradient(135deg, #0b63f6, #142760);
+          box-shadow: 0 0 24px rgba(11,99,246,0.5); /* Removed inset shadow for cleaner fill */
+          border: 1px solid rgba(255,255,255,0.15);
+          margin-top: -68px; /* Adjusted to sit right on the edge cleanly */
+          box-sizing: border-box;
         }
+        .sc-stepCard:nth-child(2) .sc-stepNum { 
+          background: linear-gradient(135deg, #0b63f6, #91cb23); 
+          box-shadow: 0 0 24px rgba(145,203,35,0.3); 
+        }
+        .sc-stepCard:nth-child(3) .sc-stepNum { 
+          background: linear-gradient(135deg, #91cb23, #0a3a25); 
+          box-shadow: 0 0 24px rgba(145,203,35,0.5); 
+          color: #000000;
+        }
+
+        .sc-cardTitle { font-size: 20px; font-weight: 900; margin: 0; }
+        .sc-cardText { margin: 0; opacity: 0.8; line-height: 1.6; font-size: 15px; }
 
         .sc-ctaBar {
           margin-top: 24px;
@@ -372,7 +412,23 @@ const Home = () => {
           flex-direction: column;
           gap: 16px;
           min-height: 280px;
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; /* Hover added here */
         }
+        .sc-tier:hover {
+          transform: translateY(-4px);
+          border-color: rgba(11, 99, 246, 0.4);
+          box-shadow: 0 16px 32px rgba(0,0,0,.25);
+        }
+
+        /* Specific styles for the Pro tier to ensure hover works cleanly */
+        .sc-tierPro {
+          border-color: rgba(11,99,246,.40);
+          background: rgba(11,99,246,.05);
+        }
+        .sc-tierPro:hover {
+          border-color: rgba(11,99,246,.80); /* Brighten border on hover */
+        }
+
         .sc-tierHeader {
           display: flex;
           flex-direction: column;
@@ -399,6 +455,11 @@ const Home = () => {
           background: rgba(0,0,0,.14);
           box-shadow: 0 10px 24px rgba(0,0,0,.18);
           overflow: hidden;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .sc-faqItem:hover {
+          transform: translateY(-2px);
+          border-color: rgba(11, 99, 246, 0.4);
         }
         .sc-faqBtn {
           width: 100%;
@@ -568,32 +629,26 @@ const Home = () => {
         <div className="sc-stepsGrid">
           <div className="sc-stepCard">
             <div className="sc-stepNum">1</div>
-            <div>
-              <p className="sc-cardTitle" style={{ margin: 0 }}>Pick your sport</p>
-              <p className="sc-cardText" style={{ marginTop: 6 }}>
-                Tap a sport and ScoreCourt loads the right setup so you can start immediately.
-              </p>
-            </div>
+            <p className="sc-cardTitle">Pick your sport</p>
+            <p className="sc-cardText">
+              Tap a sport and ScoreCourt loads the right setup so you can start immediately.
+            </p>
           </div>
 
           <div className="sc-stepCard">
             <div className="sc-stepNum">2</div>
-            <div>
-              <p className="sc-cardTitle" style={{ margin: 0 }}>Connect your controller</p>
-              <p className="sc-cardText" style={{ marginTop: 6 }}>
-                Score instantly from your phone or pair the Smart Clicker so you never break rhythm.
-              </p>
-            </div>
+            <p className="sc-cardTitle">Connect your controller</p>
+            <p className="sc-cardText">
+              Score instantly from your phone or pair the Smart Clicker so you never break rhythm.
+            </p>
           </div>
 
           <div className="sc-stepCard">
             <div className="sc-stepNum">3</div>
-            <div>
-              <p className="sc-cardTitle" style={{ margin: 0 }}>Open Display</p>
-              <p className="sc-cardText" style={{ marginTop: 6 }}>
-                Put the scoreboard on a TV, or generate a QR code for spectators to scan on their phones.
-              </p>
-            </div>
+            <p className="sc-cardTitle">Open Display</p>
+            <p className="sc-cardText">
+              Put the scoreboard on a TV, or generate a QR code for spectators to scan on their phones.
+            </p>
           </div>
         </div>
       </div>
@@ -655,7 +710,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="sc-tier" style={{ borderColor: "rgba(11,99,246,.40)", background: "rgba(11,99,246,.05)" }}>
+          <div className="sc-tier sc-tierPro">
             <div className="sc-tierHeader">
               <p className="sc-tierName" style={{ color: "#0b63f6" }}>ScoreCourt Pro</p>
               <p className="sc-tierPrice">$10 <span style={{ fontSize: "16px", opacity: 0.7, fontWeight: 600 }}>/ mo</span></p>
