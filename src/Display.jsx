@@ -418,26 +418,46 @@ export default function Display() {
     borderTop: `4px solid ${alertType === "win" ? COLORS.white : alertType === "alert" ? COLORS.white : COLORS.blue}`
   });
 
+  // ==========================================
+  // FULL SCREEN EARLY RETURNS
+  // ==========================================
+  const fullScreenCenterStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'system-ui, sans-serif',
+    padding: '40px',
+    boxSizing: 'border-box',
+    overflow: 'hidden'
+  };
+
   if (authLoading) {
     return (
-      <div className="disp-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <h2 style={{ fontFamily: 'sans-serif', opacity: 0.7 }}>Loading ScoreCourt Broadcast...</h2>
+      <div style={fullScreenCenterStyle}>
+        <h2 style={{ opacity: 0.7 }}>Loading ScoreCourt Broadcast...</h2>
       </div>
     );
   }
 
   if (isOwnDisplay && (!user || !profile?.is_pro)) {
     return (
-      <div className="disp-wrap" style={{ alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+      <div style={fullScreenCenterStyle}>
         <div style={{
-          background: 'rgba(20, 39, 96, 0.4)',
-          border: '1px solid rgba(11, 99, 246, 0.3)',
+          background: 'rgba(255, 255, 255, 0.04)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           borderRadius: '24px',
           padding: '60px',
           maxWidth: '600px',
           textAlign: 'center',
-          boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
-          backdropFilter: 'blur(16px)'
+          boxShadow: '0 24px 60px rgba(0,0,0,0.4)',
+          backdropFilter: 'blur(20px)',
+          color: COLORS.white
         }}>
           <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🔒</span>
           <h1 style={{ margin: '0 0 16px', fontSize: '36px', fontWeight: '950', letterSpacing: '-0.02em' }}>
@@ -448,10 +468,10 @@ export default function Display() {
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             {!user && (
-              <Link to="/auth" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Log In</Link>
+              <Link to="/auth" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: COLORS.white, padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Log In</Link>
             )}
-            <Link to="/store" style={{ background: 'linear-gradient(135deg, #0b63f6, #142760)', color: '#ffffff', padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Upgrade to Pro</Link>
-            <Link to="/app" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#ffffff', padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Return to App</Link>
+            <Link to="/store" style={{ background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.darkBlue})`, color: COLORS.white, padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Upgrade to Pro</Link>
+            <Link to="/" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: COLORS.white, padding: '16px 32px', borderRadius: '12px', fontWeight: '900', textDecoration: 'none', fontSize: '16px' }}>Return to Home</Link>
           </div>
         </div>
       </div>
@@ -460,16 +480,16 @@ export default function Display() {
 
   if (isCloudMode && cloudStatus === "loading") {
     return (
-      <div className="disp-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <h2 style={{ fontFamily: 'sans-serif', opacity: 0.7 }}>Connecting to ScoreCourt Broadcast...</h2>
+      <div style={fullScreenCenterStyle}>
+        <h2 style={{ opacity: 0.7 }}>Connecting to ScoreCourt Broadcast...</h2>
       </div>
     );
   }
 
   if (isCloudMode && cloudStatus === "not_found") {
     return (
-      <div className="disp-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', padding: '40px', background: 'rgba(255,0,0,0.1)', border: '1px solid rgba(255,0,0,0.3)', borderRadius: '20px' }}>
+      <div style={fullScreenCenterStyle}>
+        <div style={{ textAlign: 'center', padding: '40px', background: 'rgba(211, 47, 47, 0.1)', border: `1px solid ${COLORS.red}`, borderRadius: '20px' }}>
           <h1 style={{ fontSize: '32px', margin: '0 0 16px' }}>Broadcast Not Found</h1>
           <p style={{ opacity: 0.8, fontSize: '18px', margin: 0 }}>The URL is incorrect or the broadcast does not exist.</p>
         </div>
@@ -477,6 +497,9 @@ export default function Display() {
     );
   }
 
+  // ==========================================
+  // MAIN DISPLAY RETURN
+  // ==========================================
   return (
     <div className={`disp-wrap ${isOverlayMode ? 'is-overlay' : ''}`} key={flashKey}>
       <style>{`
