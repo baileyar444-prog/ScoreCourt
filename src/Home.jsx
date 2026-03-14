@@ -507,7 +507,9 @@ const Home = () => {
             <div className="sc-kicker">ScoreCourt</div>
             <h1 className="sc-title">The smart scoring solution that keeps the game moving — no debates, no delays.</h1>
             <p className="sc-sub">
-              A simple controller plus a big-screen scoreboard. Designed for social games, competitive leagues, clubs, and tournaments.
+              The viral scoring solution taking courts around the world by storm.
+              <br /><br />
+              Start scoring for free, add the Smart Clicker for effortless scoring, and unlock Pro to connect displays and bring matches to life.
             </p>
 
             <div className="sc-ctaRow">
