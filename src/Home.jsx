@@ -223,6 +223,12 @@ const Home = () => {
           box-shadow: 0 14px 34px rgba(0,0,0,.25);
         }
 
+        /* Custom slight colourful background for the contact section */
+        .sc-contactSection {
+          background: linear-gradient(135deg, rgba(11, 99, 246, 0.12) 0%, rgba(145, 203, 35, 0.08) 100%), rgba(17, 24, 39, 0.28);
+          border: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
         .sc-sectionHeader {
           display: flex;
           flex-direction: column;
@@ -811,6 +817,25 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* NEW CONTACT SECTION WITH SLIGHT COLOURFUL BACKGROUND */}
+      <div className="sc-section sc-contactSection" id="contact" style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="sc-sectionHeader" style={{ alignItems: "center" }}>
+          <p className="sc-sectionLabel">Support & Enquiries</p>
+          <h2 className="sc-sectionTitle">Get in Touch</h2>
+          <p className="sc-sectionSub" style={{ margin: "0 auto", paddingBottom: "16px" }}>
+            Have a question about ScoreCourt, ClubCourt, or our hardware? Drop us an email and our team will get right back to you.
+          </p>
+        </div>
+        <a 
+          href="mailto:info@scorecourt.com.au" 
+          className="sc-btn sc-btnBlue" 
+          style={{ fontSize: "18px", height: "56px", padding: "0 32px" }}
+        >
+          Email info@scorecourt.com.au
+        </a>
+      </div>
+
     </div>
   );
 };
