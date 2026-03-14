@@ -529,7 +529,7 @@ const Home = () => {
                 <li>An affordable scoring solution for clubs and players.</li>
               </ul>
               <div className="sc-placeholder">
-                <img src="https://i.imgur.com/evMOcrV.jpeg" alt="Pickleball player hitting a ball in front of a large digital scoreboard" className="sc-hero-img" />
+                <img src="https://i.imgur.com/PyIzerP.jpeg" alt="Pickleball player hitting a ball in front of a large digital scoreboard" className="sc-hero-img" />
               </div>
             </div>
           </div>
