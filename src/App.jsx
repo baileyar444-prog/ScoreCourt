@@ -19,6 +19,7 @@ import Display from "./Display";
 import Store from "./Store";
 import Auth from "./Auth";
 import MatchHistory from "./MatchHistory";
+import AdPopup from "./AdPopup"; // Added AdPopup Import
 
 const LOGO_URL = "https://i.imgur.com/tsQkz9g.png";
 const PREFERRED_SPORT_KEY = "scorecourt_preferred_sport_v1";
@@ -399,6 +400,9 @@ const AppShell = () => {
   let hideChrome = false;
   if (location && location.pathname.startsWith("/display")) hideChrome = true;
 
+  // We only want the ad to trigger when the user is on the /app routes
+  const showAd = location && location.pathname.startsWith("/app");
+
   // 🔥 GLOBAL HARDWARE BLOCKER 🔥
   // This constantly monitors the entire app and stops the clicker from scrolling pages.
   useEffect(() => {
@@ -419,6 +423,9 @@ const AppShell = () => {
   return (
     <div>
       {hideChrome ? null : <NavigationBar />}
+
+      {/* Conditionally render the AdPopup so it only runs on the /app screens */}
+      {showAd && <AdPopup />}
 
       <div className="page">
         <Routes>
