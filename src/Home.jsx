@@ -153,7 +153,7 @@ const Home = () => {
 
         .sc-panel {
           border-radius: 18px;
-          border: 1px solid rgba(255,255,255,.12); /* Changed from #0b63f6 */
+          border: 1px solid rgba(255,255,255,.12); 
           background: rgba(0,0,0,.16);
           padding: 24px;
           display: grid;
@@ -165,21 +165,25 @@ const Home = () => {
         .sc-panelTitle { font-weight: 950; margin: 0; font-size: 18px; color: #ffffff; }
         
         .sc-placeholder {
-          border-radius: 14px;
-          border: 2px dashed rgba(255,255,255,.18);
-          background: linear-gradient(135deg, rgba(11,99,246,0.1), rgba(145,203,35,0.05)); 
+          border-radius: 12px;
           min-height: 160px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding: 14px;
-          margin-top: auto;
-          gap: 8px;
+          margin-top: 10px;
+          overflow: hidden; 
         }
-        .sc-placeholder b { font-weight: 950; color: #91cb23; }
-        .sc-placeholder span { display: block; opacity: .7; font-size: 13px; }
+
+        .sc-hero-img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          border-radius: 12px;
+          opacity: 0.95;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
 
         .sc-kpiRow {
           display: grid;
@@ -197,7 +201,7 @@ const Home = () => {
           box-shadow: 0 10px 24px rgba(0,0,0,.20);
           display: grid;
           gap: 6px;
-          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; /* Added hover transition */
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
         }
         .sc-kpi:hover {
           transform: translateY(-4px);
@@ -360,9 +364,9 @@ const Home = () => {
           font-size: 28px;
           color: #ffffff;
           background: linear-gradient(135deg, #0b63f6, #142760);
-          box-shadow: 0 0 24px rgba(11,99,246,0.5); /* Removed inset shadow for cleaner fill */
+          box-shadow: 0 0 24px rgba(11,99,246,0.5); 
           border: 1px solid rgba(255,255,255,0.15);
-          margin-top: -68px; /* Adjusted to sit right on the edge cleanly */
+          margin-top: -68px; 
           box-sizing: border-box;
         }
         .sc-stepCard:nth-child(2) .sc-stepNum { 
@@ -412,7 +416,7 @@ const Home = () => {
           flex-direction: column;
           gap: 16px;
           min-height: 280px;
-          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; /* Hover added here */
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
         }
         .sc-tier:hover {
           transform: translateY(-4px);
@@ -426,7 +430,7 @@ const Home = () => {
           background: rgba(11,99,246,.05);
         }
         .sc-tierPro:hover {
-          border-color: rgba(11,99,246,.80); /* Brighten border on hover */
+          border-color: rgba(11,99,246,.80); 
         }
 
         .sc-tierHeader {
@@ -517,16 +521,15 @@ const Home = () => {
             <div className="sc-panel">
               <p className="sc-panelTitle">What it solves</p>
               <ul className="sc-ul" style={{ margin: 0 }}>
-                <li>No arguing about the score.</li>
+                <li>Score as you play. Never forget the score.</li>
                 <li>No stopping play to check phones.</li>
-                <li>Clear TV displays and point entry.</li>
-                <li>OBS support for Twitch/YouTube livestreams.</li>
-                <li>Saves your match history automatically.</li>
+                <li>No arguing about the score.</li>
+                <li>Automatically tracks who is serving and the correct side.</li>
+                <li>Display the score on any device.</li>
+                <li>An affordable scoring solution for clubs and players.</li>
               </ul>
               <div className="sc-placeholder">
-                <span style={{ fontSize: "28px", display: "block", marginBottom: "4px" }}>📱 📺</span>
-                <b>[ Image Placeholder ]</b>
-                <span>Controller + TV Setup</span>
+                <img src="https://i.imgur.com/evMOcrV.jpeg" alt="Pickleball player hitting a ball in front of a large digital scoreboard" className="sc-hero-img" />
               </div>
             </div>
           </div>
