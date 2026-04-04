@@ -11,14 +11,14 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
       // 1. Allow normal typing in text boxes
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
-      // 2. Map standard 2-button and 3-button remote keys
-      const isTeamA = e.code === "PageUp" || e.code === "ArrowLeft" || e.code === "ArrowUp";
-      const isTeamB = e.code === "PageDown" || e.code === "ArrowRight" || e.code === "ArrowDown";
+      // 2. Map standard 2-button, 3-button, AND Volume control remotes
+      const isTeamA = e.code === "PageUp" || e.code === "ArrowLeft" || e.code === "ArrowUp" || e.code === "AudioVolumeUp" || e.key === "VolumeUp";
+      const isTeamB = e.code === "PageDown" || e.code === "ArrowRight" || e.code === "ArrowDown" || e.code === "AudioVolumeDown" || e.key === "VolumeDown";
       const isUndoBtn = e.code === "Enter" || e.code === "Backspace";
 
       if (isTeamA || isTeamB || isUndoBtn) {
         
-        // Kill the page scrolling instantly
+        // Kill the page scrolling or volume changing instantly
         e.preventDefault();
 
         // If the match isn't live or the screen is locked, do nothing
@@ -26,7 +26,9 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
 
         const now = Date.now();
         const timeSinceLastClick = now - lastTime.current;
-        const isSameKey = lastKey.current === e.code;
+        
+        // Check if they pressed the same action (either via code or key property)
+        const isSameKey = lastKey.current === e.code || lastKey.current === e.key;
 
         // SCENARIO A: They pressed a dedicated 3rd Undo button (instant fire)
         if (isUndoBtn) {
@@ -47,7 +49,7 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
 
         // SCENARIO C: SINGLE CLICK
         // We log the key they pressed, and wait 300ms to see if they press it again.
-        lastKey.current = e.code;
+        lastKey.current = e.code || e.key;
         lastTime.current = now;
 
         clearTimeout(clickTimer.current);

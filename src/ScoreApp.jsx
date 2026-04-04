@@ -274,7 +274,6 @@ export default function ScoreApp() {
     confettiRef.current = [];
   };
 
-  // NEW MANAUL END MATCH BUTTON FOR TOUCH FOOTY
   const forceEndMatch = () => {
     if (!window.confirm("Are you sure you want to end the match right now and save the final score?")) return;
     pushUndoSnapshot();
@@ -290,9 +289,6 @@ export default function ScoreApp() {
     } else if (match.sport === "Pickleball" || match.sport === "Badminton") {
        if (match.gamesWon.B > match.gamesWon.A) winner = "B";
     } else {
-       // Touch Footy / Generic Points
-       // Note: If the match is a pure draw, it technically assigns Team A as the winner 
-       // just to satisfy the database history requirement of having a declared winner.
        if (match.points.B > match.points.A) winner = "B";
     }
     
@@ -374,11 +370,12 @@ export default function ScoreApp() {
     isLocked: locked
   });
 
-  // Pairing Modal Signal Verification
+  // Pairing Modal Signal Verification - Updated to include Volume Keys
   useEffect(() => {
     if (!showPairingModal || isClickerVerified) return;
     const verifySignal = (e) => {
-      if (["PageUp", "PageDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.code)) {
+      const validCodes = ["PageUp", "PageDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "AudioVolumeUp", "AudioVolumeDown", "VolumeUp", "VolumeDown"];
+      if (validCodes.includes(e.code) || validCodes.includes(e.key)) {
         e.preventDefault();
         setIsClickerVerified(true);
       }
@@ -859,7 +856,7 @@ export default function ScoreApp() {
               Reset Match
             </button>
 
-            {/* NEW: END MATCH BUTTON FOR TOUCH FOOTY / TIMED SPORTS */}
+            {/* END MATCH BUTTON FOR TOUCH FOOTY / TIMED SPORTS */}
             {match.phase === "live" && !match.winner && (
               <button
                 className="btn"
@@ -883,7 +880,7 @@ export default function ScoreApp() {
                 Open Display ↗
               </Link>
 
-              {/* NEW: PAIR CLICKER BUTTON */}
+              {/* PAIR CLICKER BUTTON */}
               <button 
                 className="btn" 
                 style={{ backgroundColor: isClickerVerified ? DARK_GREEN : WHITE, color: isClickerVerified ? WHITE : DARK_BLUE, fontWeight: "bold", border: "none" }}
