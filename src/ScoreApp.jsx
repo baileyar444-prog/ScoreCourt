@@ -370,7 +370,7 @@ export default function ScoreApp() {
     isLocked: locked
   });
 
-  // Pairing Modal Signal Verification - Updated to include Volume Keys
+  // Pairing Modal Signal Verification
   useEffect(() => {
     if (!showPairingModal || isClickerVerified) return;
     const verifySignal = (e) => {
@@ -510,7 +510,7 @@ export default function ScoreApp() {
   const serve = getServeDetail(match);
   const servingLine = () => {
     if (match.sport === "Volleyball") return `${serve.teamName}`;
-    if (match.sport === "Touch Footy") return "Tap Off"; // Simplified for Touch
+    if (match.sport === "Touch Footy") return "Tap Off"; 
     const sideWord = serve.side === "R" ? "Right" : serve.side === "L" ? "Left" : "";
     const playerPart = serve.playerName ? ` • ${serve.playerName}` : "";
     const sideDisplay = sideWord ? ` • ${sideWord}` : "";
@@ -769,6 +769,7 @@ export default function ScoreApp() {
         </div>
       )}
 
+      {/* --- HERO TOP SECTION --- */}
       <div className="card app-hero">
         <div className="row app-heroRow">
           <div className="app-heroLeft">
@@ -879,15 +880,6 @@ export default function ScoreApp() {
               >
                 Open Display ↗
               </Link>
-
-              {/* PAIR CLICKER BUTTON */}
-              <button 
-                className="btn" 
-                style={{ backgroundColor: isClickerVerified ? DARK_GREEN : WHITE, color: isClickerVerified ? WHITE : DARK_BLUE, fontWeight: "bold", border: "none" }}
-                onClick={() => setShowPairingModal(true)}
-              >
-                {isClickerVerified ? "✅ Clicker Connected" : "🔗 Pair Clicker"}
-              </button>
               
               <button 
                 className="btn" 
@@ -905,8 +897,78 @@ export default function ScoreApp() {
         </div>
       </div>
 
+      {/* --- NEW: HARDWARE & PRO PERKS STRIP --- */}
+      <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "14px" }}>
+        
+        <button 
+          onClick={() => setShowPairingModal(true)}
+          style={{
+            flex: "1 1 250px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+            backgroundColor: isClickerVerified ? DARK_GREEN : CHARCOAL,
+            border: `1px solid ${isClickerVerified ? "#91cb23" : "rgba(255,255,255,0.2)"}`,
+            padding: "14px 20px",
+            borderRadius: "14px",
+            color: WHITE,
+            fontWeight: "bold",
+            fontSize: "15px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            boxShadow: isClickerVerified ? "0 4px 12px rgba(145, 203, 35, 0.2)" : "0 4px 12px rgba(0,0,0,0.2)"
+          }}
+          onMouseOver={(e) => { if(!isClickerVerified) e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)" }}
+          onMouseOut={(e) => { if(!isClickerVerified) e.currentTarget.style.backgroundColor = CHARCOAL }}
+        >
+          {isClickerVerified ? "✅ Smart Clicker Connected" : "🔗 Pair Smart Clicker"}
+        </button>
+
+        {isPro && (
+          <div style={{
+            flex: "2 1 450px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px",
+            background: "linear-gradient(90deg, rgba(11,99,246,0.15), rgba(11,99,246,0.05))",
+            border: `1px solid ${TEAM_A_BORDER}`,
+            padding: "12px 20px",
+            borderRadius: "14px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <span style={{ fontSize: "22px" }}>🎁</span>
+              <span style={{ fontSize: "14.5px", fontWeight: "600", color: WHITE, lineHeight: 1.4 }}>
+                <strong style={{ color: TEAM_A_HEX }}>Pro Member Perk:</strong> Claim your free prototype clicker with your membership — all we ask is for you to cover the shipping.
+              </span>
+            </div>
+            <Link 
+              to="/store" 
+              style={{
+                backgroundColor: TEAM_A_HEX,
+                color: WHITE,
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontSize: "14px",
+                fontWeight: "800",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                boxShadow: "0 4px 10px rgba(11,99,246,0.3)",
+                transition: "transform 0.15s ease"
+              }}
+            >
+              Claim Now
+            </Link>
+          </div>
+        )}
+      </div>
+
       <div style={{ height: 14 }} />
 
+      {/* --- MATCH SETUP SECTION --- */}
       {match.phase === "setup" && (
         <div className="card">
           <div className="row" style={{ alignItems: "center" }}>
