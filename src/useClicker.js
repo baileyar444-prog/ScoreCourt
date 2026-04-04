@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 
 export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked }) {
+  const clickTimer = useRef(null);
+  const lastKey = useRef(null);
   const lastTime = useRef(0);
 
   useEffect(() => {
@@ -8,7 +10,7 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
       // 1. Allow normal typing in text boxes
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
-      // 2. Intercept volume and arrow keys
+      // 2. Aggressively intercept EVERY known variation of the volume keys
       const isTeamA = ["PageUp", "ArrowLeft", "ArrowUp", "AudioVolumeUp", "VolumeUp"].includes(e.code) || 
                       ["PageUp", "ArrowLeft", "ArrowUp", "AudioVolumeUp", "VolumeUp"].includes(e.key);
                       
@@ -19,27 +21,51 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
 
       if (isTeamA || isTeamB || isUndoBtn) {
         
-        // THE KITCHEN SINK: Try to completely nuke the event from propagating to the OS
+        // THE KITCHEN SINK: Nuke the event from propagating to the OS
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         e.returnValue = false;
 
+        // If the match isn't live or the screen is locked, do nothing
         if (!isLive || isLocked) return;
 
-        // A tiny 150ms hardware debounce to prevent accidental double-fires
         const now = Date.now();
-        if (now - lastTime.current < 150) return; 
+        const timeSinceLastClick = now - lastTime.current;
+        
+        // Check if they pressed the same action using either property
+        const currentKey = e.code || e.key;
+        const isSameKey = lastKey.current === currentKey;
+
+        // SCENARIO A: They pressed a dedicated 3rd Undo button
+        if (isUndoBtn) {
+          clearTimeout(clickTimer.current);
+          onUndo();
+          lastTime.current = 0;
+          return;
+        }
+
+        // SCENARIO B: DOUBLE CLICK DETECTED!
+        if (isSameKey && timeSinceLastClick < 350) {
+          clearTimeout(clickTimer.current); 
+          onUndo(); 
+          lastTime.current = 0; 
+          return;
+        }
+
+        // SCENARIO C: SINGLE CLICK
+        lastKey.current = currentKey;
         lastTime.current = now;
 
-        // FIRE INSTANTLY
-        if (isUndoBtn) {
-          onUndo();
-        } else if (isTeamA && onTeamA) {
-          onTeamA();
-        } else if (isTeamB && onTeamB) {
-          onTeamB();
-        }
+        clearTimeout(clickTimer.current);
+        
+        clickTimer.current = setTimeout(() => {
+          // If 300ms passes and no second click happened, award the point!
+          if (isTeamA && onTeamA) onTeamA();
+          if (isTeamB && onTeamB) onTeamB();
+          
+          lastTime.current = 0;
+        }, 300);
       }
     };
 
@@ -48,6 +74,7 @@ export default function useClicker({ onTeamA, onTeamB, onUndo, isLive, isLocked 
     
     return () => {
       window.removeEventListener("keydown", handleKeyDown, { capture: true });
+      clearTimeout(clickTimer.current);
     };
   }, [onTeamA, onTeamB, onUndo, isLive, isLocked]);
 }
