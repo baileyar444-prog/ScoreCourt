@@ -12,7 +12,8 @@ const Home = () => {
     { name: "Badminton", tone: "green" },
     { name: "Tennis", tone: "slate" },
     { name: "Padel", tone: "teal" },
-    { name: "Volleyball", tone: "navy" }
+    { name: "Volleyball", tone: "navy" },
+    { name: "Touch Footy", tone: "orange" }
   ];
 
   const setPreferredSportAndGo = (sportName) => {
@@ -252,8 +253,8 @@ const Home = () => {
           grid-template-columns: 1fr;
           gap: 16px;
         }
-        @media (min-width: 600px) { .sc-sportGrid { grid-template-columns: 1fr 1fr 1fr; } }
-        @media (min-width: 1024px) { .sc-sportGrid { grid-template-columns: repeat(5, 1fr); } }
+        @media (min-width: 600px) { .sc-sportGrid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 1024px) { .sc-sportGrid { grid-template-columns: repeat(3, 1fr); } }
 
         .sc-sportCard {
           border-radius: 18px;
@@ -281,6 +282,7 @@ const Home = () => {
         .tone-slate { background: radial-gradient(600px 220px at 30% 20%, rgba(160,174,192,.28), transparent 62%), rgba(17,24,39,.36); }
         .tone-teal { background: radial-gradient(600px 220px at 30% 20%, rgba(111,204,220,.28), transparent 62%), rgba(17,24,39,.36); }
         .tone-navy { background: radial-gradient(600px 220px at 30% 20%, rgba(69,116,185,.30), transparent 62%), rgba(17,24,39,.36); }
+        .tone-orange { background: radial-gradient(600px 220px at 30% 20%, rgba(249,115,22,.34), transparent 62%), rgba(17,24,39,.36); }
 
         .sc-perfectGrid {
           margin-top: 24px;
@@ -685,7 +687,7 @@ const Home = () => {
           </div>
           <div className="sc-perfectCard">
             <b>Multi-sport scoring</b>
-            <span>Pickleball, badminton, tennis, padel, volleyball.</span>
+            <span>Pickleball, badminton, tennis, padel, volleyball, touch footy.</span>
           </div>
           <div className="sc-perfectCard">
             <b>OBS Broadcasting</b>

@@ -78,7 +78,11 @@ export default function ScoreApp() {
   const [undoStack, setUndoStack] = useState([]);
   const [copied, setCopied] = useState(false);
   const [locked, setLocked] = useState(false);
+  
+  // Modal States
   const [showQR, setShowQR] = useState(false);
+  const [showPairingModal, setShowPairingModal] = useState(false);
+  const [isClickerVerified, setIsClickerVerified] = useState(false);
 
   const [isSportDropdownOpen, setIsSportDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -100,7 +104,6 @@ export default function ScoreApp() {
   // ==========================================
   useEffect(() => {
     const handleStorage = (event) => {
-      // If the Display page changes the score, instantly pull it into this page
       if (event.key === STORAGE_KEY && event.newValue) {
         try {
           setMatchState(JSON.parse(event.newValue));
@@ -271,6 +274,33 @@ export default function ScoreApp() {
     confettiRef.current = [];
   };
 
+  // NEW MANAUL END MATCH BUTTON FOR TOUCH FOOTY
+  const forceEndMatch = () => {
+    if (!window.confirm("Are you sure you want to end the match right now and save the final score?")) return;
+    pushUndoSnapshot();
+    const next = deepCopy(match);
+    
+    let winner = "A";
+    if (match.sport === "Tennis" || match.sport === "Padel") {
+       const setsA = match.tennis.sets.A; const setsB = match.tennis.sets.B;
+       if (setsB > setsA) winner = "B";
+       else if (setsB === setsA && match.tennis.games.B > match.tennis.games.A) winner = "B";
+    } else if (match.sport === "Volleyball") {
+       if (match.volley.sets.B > match.volley.sets.A) winner = "B";
+    } else if (match.sport === "Pickleball" || match.sport === "Badminton") {
+       if (match.gamesWon.B > match.gamesWon.A) winner = "B";
+    } else {
+       // Touch Footy / Generic Points
+       // Note: If the match is a pure draw, it technically assigns Team A as the winner 
+       // just to satisfy the database history requirement of having a declared winner.
+       if (match.points.B > match.points.A) winner = "B";
+    }
+    
+    next.winner = winner;
+    next.phase = "finished";
+    commit(next);
+  };
+
   const beginMatch = () => {
     localStorage.removeItem(TIMER_ANCHOR_KEY);
     localStorage.setItem(TIMER_PAUSED_KEY, "false");
@@ -339,9 +369,23 @@ export default function ScoreApp() {
     onTeamA: () => onAdd("A"),
     onTeamB: () => onAdd("B"),
     onUndo: () => undo(),
-    isLive: match.phase === "live" && !match.winner,
+    // We pause scoring via the clicker while the pairing modal is active
+    isLive: match.phase === "live" && !match.winner && !showPairingModal,
     isLocked: locked
   });
+
+  // Pairing Modal Signal Verification
+  useEffect(() => {
+    if (!showPairingModal || isClickerVerified) return;
+    const verifySignal = (e) => {
+      if (["PageUp", "PageDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.code)) {
+        e.preventDefault();
+        setIsClickerVerified(true);
+      }
+    };
+    window.addEventListener("keydown", verifySignal, { passive: false });
+    return () => window.removeEventListener("keydown", verifySignal);
+  }, [showPairingModal, isClickerVerified]);
 
   // Standard keyboard listeners for non-scoring shortcuts
   useEffect(() => {
@@ -392,8 +436,6 @@ export default function ScoreApp() {
         localStorage.setItem(TIMER_ANCHOR_KEY, anchor.toString());
       }
       
-      // Removed the 5-second aggressive heartbeat that was causing the bounce.
-      // Timer now strictly runs locally and perfectly mirrors the Display.
       interval = setInterval(() => {
         const exactElapsed = Math.floor((Date.now() - anchor) / 1000);
         setElapsedSeconds((prev) => {
@@ -471,6 +513,7 @@ export default function ScoreApp() {
   const serve = getServeDetail(match);
   const servingLine = () => {
     if (match.sport === "Volleyball") return `${serve.teamName}`;
+    if (match.sport === "Touch Footy") return "Tap Off"; // Simplified for Touch
     const sideWord = serve.side === "R" ? "Right" : serve.side === "L" ? "Left" : "";
     const playerPart = serve.playerName ? ` • ${serve.playerName}` : "";
     const sideDisplay = sideWord ? ` • ${sideWord}` : "";
@@ -627,6 +670,12 @@ export default function ScoreApp() {
           box-shadow: 0 20px 60px rgba(0,0,0,0.5);
           max-width: 90%;
         }
+
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.02); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 1; }
+        }
       `}</style>
 
       {/* QR CODE MODAL OVERLAY */}
@@ -651,6 +700,74 @@ export default function ScoreApp() {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* PAIRING WIZARD MODAL */}
+      {showPairingModal && (
+        <div className="sc-modal-overlay" onClick={() => setShowPairingModal(false)}>
+          <div className="sc-modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+            {!isClickerVerified ? (
+              <>
+                <h2 style={{ color: DARK_BLUE, margin: "0 0 12px 0", fontWeight: 900 }}>Pair Smart Clicker</h2>
+                <p style={{ color: CHARCOAL, margin: "0 0 20px 0", fontSize: "0.95rem", lineHeight: 1.5, textAlign: "left" }}>
+                  <strong>Step 1:</strong> Turn on your clicker.<br/>
+                  <strong>Step 2:</strong> Go to your phone's standard Bluetooth settings and connect to the device.<br/>
+                  <strong>Step 3:</strong> Once connected, press <strong>any button</strong> on the clicker to verify it in the app.
+                </p>
+                <div style={{ 
+                  padding: "20px", 
+                  background: "rgba(11,99,246,0.1)", 
+                  borderRadius: "12px", 
+                  border: `1px dashed ${TEAM_A_HEX}`, 
+                  color: TEAM_A_HEX, 
+                  fontWeight: "bold", 
+                  animation: "pulse 1.5s infinite" 
+                }}>
+                  Waiting for clicker signal...
+                </div>
+                <button 
+                  className="btn" 
+                  style={{ marginTop: "20px", width: "100%", backgroundColor: CHARCOAL, color: WHITE, border: "none", padding: "12px" }} 
+                  onClick={() => setShowPairingModal(false)}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: "48px", marginBottom: "12px" }}>✅</div>
+                <h2 style={{ color: DARK_GREEN, margin: "0 0 12px 0", fontWeight: 900 }}>Clicker Connected!</h2>
+                
+                <div style={{ textAlign: "left", background: "rgba(0,0,0,0.05)", padding: "16px", borderRadius: "12px", marginBottom: "24px" }}>
+                  <p style={{ margin: "0 0 8px 0", fontWeight: "bold", color: CHARCOAL }}>🎮 Controls:</p>
+                  <ul style={{ margin: 0, paddingLeft: "20px", color: CHARCOAL, fontSize: "0.9rem", lineHeight: 1.6 }}>
+                    <li><strong>Top Button:</strong> Score Team A</li>
+                    <li><strong>Bottom Button:</strong> Score Team B</li>
+                    <li><strong>Double-Click:</strong> Undo last point</li>
+                  </ul>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <button 
+                    className="btn btnPrimary" 
+                    onClick={() => setShowPairingModal(false)} 
+                    style={{ backgroundColor: TEAM_A_HEX, color: WHITE, border: "none", padding: "14px" }}
+                  >
+                    Return to Match
+                  </button>
+                  <Link 
+                    to={`/display/${displaySlug}`} 
+                    target="_blank" 
+                    className="btn" 
+                    style={{ backgroundColor: WHITE, color: DARK_BLUE, border: `1px solid ${DARK_BLUE}`, padding: "14px", textDecoration: "none", fontWeight: "bold", textAlign: "center" }}
+                  >
+                    Open Display Mode
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -742,6 +859,17 @@ export default function ScoreApp() {
               Reset Match
             </button>
 
+            {/* NEW: END MATCH BUTTON FOR TOUCH FOOTY / TIMED SPORTS */}
+            {match.phase === "live" && !match.winner && (
+              <button
+                className="btn"
+                onClick={forceEndMatch}
+                style={{ backgroundColor: DARK_GREEN, color: WHITE, fontWeight: "bold", border: "none" }}
+              >
+                🏁 End Match
+              </button>
+            )}
+
             <div className="app-divider" />
 
             <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
@@ -754,6 +882,15 @@ export default function ScoreApp() {
               >
                 Open Display ↗
               </Link>
+
+              {/* NEW: PAIR CLICKER BUTTON */}
+              <button 
+                className="btn" 
+                style={{ backgroundColor: isClickerVerified ? DARK_GREEN : WHITE, color: isClickerVerified ? WHITE : DARK_BLUE, fontWeight: "bold", border: "none" }}
+                onClick={() => setShowPairingModal(true)}
+              >
+                {isClickerVerified ? "✅ Clicker Connected" : "🔗 Pair Clicker"}
+              </button>
               
               <button 
                 className="btn" 

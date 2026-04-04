@@ -2,7 +2,7 @@
 // Event-log based scoring engine using the Strategy Pattern.
 // Easily extensible: To add a new sport, just add a new object to SPORT_STRATEGIES.
 
-export const SPORTS = ["Pickleball", "Badminton", "Tennis", "Padel", "Volleyball"];
+export const SPORTS = ["Pickleball", "Badminton", "Tennis", "Padel", "Volleyball", "Touch Footy"];
 
 /* ---------- Global Helpers ---------- */
 export function deepCopy(obj) { return JSON.parse(JSON.stringify(obj)); }
@@ -243,7 +243,6 @@ function applyTennisPoint(match, team) {
     return;
   }
 
-  // Handle traditional Deuce advantage if not Golden Point
   if (!f.goldenPoint && isDeuce(t)) {
     if (t.adv === null) { t.adv = team; match.serve.side = "L"; updateServePlayerIndex(match); return; }
     if (t.adv !== team) { t.adv = null; match.serve.side = "R"; updateServePlayerIndex(match); return; }
@@ -251,7 +250,6 @@ function applyTennisPoint(match, team) {
 
   if (!(isDeuce(t) && !f.goldenPoint && t.adv === team)) t.points[team] += 1;
 
-  // The win margin drops to 1 during a Golden Point
   const winMargin = f.goldenPoint ? 1 : 2;
   const wonGame = (t.points[team] >= 4 && t.points[team] - t.points[other] >= winMargin) || (!f.goldenPoint && isDeuce(t) && t.adv === team);
 
@@ -270,7 +268,6 @@ function applyTennisPoint(match, team) {
     return;
   }
 
-  // Clear advantage safely if they hit exactly 40-40 
   if (!f.goldenPoint && t.points.A >= 3 && t.points.B >= 3 && t.points.A === t.points.B) t.adv = null;
 
   const totalPoints = t.points.A + t.points.B;
@@ -280,8 +277,6 @@ function applyTennisPoint(match, team) {
 
 /* ======================================================== */
 /* THE STRATEGY DICTIONARY                                  */
-/* Everything above this is isolated. Everything below uses */
-/* this object to figure out how to handle a specific sport.*/
 /* ======================================================== */
 
 const SPORT_STRATEGIES = {
@@ -428,24 +423,32 @@ const SPORT_STRATEGIES = {
       const aLvl = checkPointLevel("A");
       const bLvl = checkPointLevel("B");
 
-      // Critical match-ending alerts overrule generic states
       if (aLvl === "MATCH POINT" || bLvl === "MATCH POINT") return "MATCH POINT";
       if (aLvl === "SET POINT" || bLvl === "SET POINT") return "SET POINT";
 
-      // Inject the broadcast status for Deuce scenarios
       if (f.goldenPoint && t.points.A === 3 && t.points.B === 3) return "GOLDEN POINT";
       if (!f.goldenPoint && t.adv) return "ADVANTAGE";
       if (!f.goldenPoint && isDeuce(t) && !t.adv) return "DEUCE";
 
-      // Fallback to game point / tiebreak
       if (aLvl === "GAME POINT" || bLvl === "GAME POINT") return "GAME POINT";
       if (t.isTiebreak) return "TIEBREAK ACTIVE";
 
       return null;
     }
+  },
+  // TOUCH FOOTY STRATEGY (Simple increments, time based)
+  "Touch Footy": {
+    defaultFormat: () => ({ kind: "timed", timeLimit: 40 }),
+    initMatchState: () => {},
+    applyRally: (match, team) => {
+      match.points[team] += 1;
+    },
+    displayScore: (match) => `${match.points.A}–${match.points.B}`,
+    getServeExtra: () => "Tap Off",
+    getAlert: () => null
   }
 };
-// Padel securely uses Tennis rules natively
+
 SPORT_STRATEGIES.Padel = SPORT_STRATEGIES.Tennis;
 
 /* ---------- State factory ---------- */
@@ -488,7 +491,7 @@ function applyEvent(match, ev) {
     const strategy = SPORT_STRATEGIES[match.sport];
     if (strategy && strategy.applyRally) {
       strategy.applyRally(match, ev.team);
-      updateServePlayerIndex(match); // Always update pointers at the end of any rally
+      updateServePlayerIndex(match);
     }
   }
 }
