@@ -463,7 +463,13 @@ export default function ScoreApp() {
       if (!preferred) return;
       if (SPORTS.includes(preferred)) {
         pushUndoSnapshot();
-        commit(setSport(match, preferred));
+        const nextMatch = setSport(match, preferred);
+        if (preferred === "Touch Footy") {
+            nextMatch.format.timeLimit = 20;
+        } else {
+            nextMatch.format.timeLimit = 0;
+        }
+        commit(nextMatch);
       }
       localStorage.removeItem(PREFERRED_SPORT_KEY);
     } catch {}
@@ -999,7 +1005,18 @@ export default function ScoreApp() {
                     {SPORTS.map((s) => (
                       <div
                         key={s}
-                        onClick={() => { pushUndoSnapshot(); commit(setSport(match, s)); setIsSportDropdownOpen(false); }}
+                        onClick={() => { 
+                          pushUndoSnapshot(); 
+                          const nextMatch = setSport(match, s);
+                          // Force the timer default to 20 for touch footy, or 0 (no timer) for racket sports
+                          if (s === "Touch Footy") {
+                              nextMatch.format.timeLimit = 20; 
+                          } else {
+                              nextMatch.format.timeLimit = 0; 
+                          }
+                          commit(nextMatch); 
+                          setIsSportDropdownOpen(false); 
+                        }}
                         style={{
                           padding: "8px 16px",
                           cursor: "pointer",
@@ -1036,15 +1053,47 @@ export default function ScoreApp() {
             <div className="h2" style={{ marginBottom: 16, fontSize: "1.1rem" }}>Format Settings</div>
 
             <div style={{ marginBottom: "20px", paddingBottom: "16px", borderBottom: `1px solid rgba(255,255,255,0.1)` }}>
-              <div className="hint" style={{ marginBottom: 8 }}>Time Limit (minutes) • 0 = Unlimited</div>
-              <input
-                type="number"
-                className="sc-input"
-                style={{ width: "140px" }}
-                value={fmt.timeLimit || ""}
-                onChange={(e) => commit(setFormat(match, { timeLimit: Number(e.target.value) }))}
-                placeholder="0"
-              />
+              <div className="hint" style={{ marginBottom: 12 }}>Match Timer</div>
+              <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+                <div className="segmented" style={{ width: "fit-content", margin: 0 }}>
+                  <button 
+                    className={"segBtn " + (!fmt.timeLimit ? "isOn" : "")} 
+                    onClick={() => commit(setFormat(match, { timeLimit: 0 }))}
+                    style={{ padding: "0 16px" }}
+                  >
+                    No timer
+                  </button>
+                  <button 
+                    className={"segBtn " + (fmt.timeLimit > 0 ? "isOn" : "")} 
+                    onClick={() => {
+                      if (!fmt.timeLimit) {
+                        const defaultTime = match.sport === "Touch Footy" ? 20 : 15;
+                        commit(setFormat(match, { timeLimit: defaultTime }));
+                      }
+                    }}
+                    style={{ padding: "0 16px" }}
+                  >
+                    Use timer
+                  </button>
+                </div>
+                
+                {fmt.timeLimit > 0 && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <input
+                      type="number"
+                      className="sc-input"
+                      style={{ width: "80px", padding: "8px 12px", textAlign: "center" }}
+                      value={fmt.timeLimit || ""}
+                      onChange={(e) => {
+                        const val = Number(e.target.value);
+                        commit(setFormat(match, { timeLimit: val < 0 ? 0 : val }));
+                      }}
+                      min="1"
+                    />
+                    <span className="hint" style={{ margin: 0 }}>mins</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {(match.sport === "Pickleball" || match.sport === "Badminton") && (

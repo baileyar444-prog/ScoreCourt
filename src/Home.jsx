@@ -412,7 +412,7 @@ const Home = () => {
           gap: 16px;
         }
         @media (min-width: 768px) { .sc-priceGrid { grid-template-columns: 1fr 1fr; } }
-        @media (min-width: 1024px) { .sc-priceGrid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+        @media (min-width: 1024px) { .sc-priceGrid { grid-template-columns: repeat(4, 1fr); } }
         
         .sc-tier {
           border-radius: 18px;
@@ -726,7 +726,7 @@ const Home = () => {
             <div className="sc-tierHeader">
               <p className="sc-tierName" style={{ color: "#0b63f6" }}>ScoreCourt Pro</p>
               <p className="sc-tierPrice">$10 <span style={{ fontSize: "16px", opacity: 0.7, fontWeight: 600 }}>/ mo</span></p>
-              <p className="sc-tierSub">or $100 billed annually</p>
+              {/* REMOVED: <p className="sc-tierSub">or $100 billed annually</p> */}
             </div>
             <p className="sc-tierDesc">Unlock the full potential of your matches without interruptions.</p>
             <ul className="sc-ul">
@@ -758,6 +758,23 @@ const Home = () => {
             </div>
           </div>
 
+          <div className="sc-tier">
+            <div className="sc-tierHeader">
+              <p className="sc-tierName">Custom Solution</p>
+              <p className="sc-tierPrice">Custom</p>
+              <p className="sc-tierSub">Tailored to your venue</p>
+            </div>
+            <p className="sc-tierDesc">Built exclusively as the ultimate scoring solution for clubs, tournaments, and large facilities.</p>
+            <ul className="sc-ul">
+              <li>Multi-court management</li>
+              <li>Bulk member onboarding</li>
+              <li>Hardware bundle discounts</li>
+              <li>Priority technical support</li>
+            </ul>
+            <div style={{ marginTop: "auto", paddingTop: 16 }}>
+              <Link className="sc-btn sc-btnGreen" style={{ width: "100%" }} to="mailto:info@scorecourt.com.au">Enquire Now</Link>
+            </div>
+          </div>
         </div>
       </div>
 
