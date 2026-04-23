@@ -897,13 +897,12 @@ export default function ScoreApp() {
         </div>
       </div>
 
-      {/* --- NEW: HARDWARE & PRO PERKS STRIP --- */}
-      <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "14px" }}>
-        
+      {/* --- HARDWARE PAIRING STRIP --- */}
+      <div style={{ marginBottom: "14px" }}>
         <button 
           onClick={() => setShowPairingModal(true)}
           style={{
-            flex: "1 1 250px",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -924,46 +923,6 @@ export default function ScoreApp() {
         >
           {isClickerVerified ? "✅ Smart Clicker Connected" : "🔗 Pair Smart Clicker"}
         </button>
-
-        {isPro && (
-          <div style={{
-            flex: "2 1 450px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "12px",
-            background: "linear-gradient(90deg, rgba(11,99,246,0.15), rgba(11,99,246,0.05))",
-            border: `1px solid ${TEAM_A_BORDER}`,
-            padding: "12px 20px",
-            borderRadius: "14px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span style={{ fontSize: "22px" }}>🎁</span>
-              <span style={{ fontSize: "14.5px", fontWeight: "600", color: WHITE, lineHeight: 1.4 }}>
-                <strong style={{ color: TEAM_A_HEX }}>Pro Member Perk:</strong> Claim your free prototype clicker with your membership — all we ask is for you to cover the shipping.
-              </span>
-            </div>
-            <Link 
-              to="/store" 
-              style={{
-                backgroundColor: TEAM_A_HEX,
-                color: WHITE,
-                padding: "8px 16px",
-                borderRadius: "8px",
-                fontSize: "14px",
-                fontWeight: "800",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                boxShadow: "0 4px 10px rgba(11,99,246,0.3)",
-                transition: "transform 0.15s ease"
-              }}
-            >
-              Claim Now
-            </Link>
-          </div>
-        )}
       </div>
 
       <div style={{ height: 14 }} />

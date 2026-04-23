@@ -256,7 +256,7 @@ const Store = () => {
           <div className="sc-hardware-kicker">Official Hardware</div>
           <h2 className="sc-hardware-title">ScoreCourt Clicker</h2>
           <div className="sc-plan-price" style={{ marginBottom: "16px" }}>
-            <span className="sc-plan-currency">$</span>70<span className="sc-plan-period"> AUD one-time</span>
+            <span className="sc-plan-currency">$</span>40<span className="sc-plan-period"> AUD one-time</span>
           </div>
           <p className="sc-hardware-desc">
             Keep your phone at the back of the court. Clip this lightweight Bluetooth remote to your shorts or paddle and update the score seamlessly without dropping your momentum. Pairs instantly with the ScoreCourt app.
@@ -318,7 +318,7 @@ const Store = () => {
           <div className="sc-pro-badge">Most Popular</div>
           <h2 className="sc-plan-name" style={{ color: "#0b63f6" }}>ScoreCourt Pro</h2>
           <div className="sc-plan-price">
-            <span className="sc-plan-currency">$</span>9<span className="sc-plan-period"> AUD /mo</span>
+            <span className="sc-plan-currency">$</span>10<span className="sc-plan-period"> AUD /mo</span>
           </div>
           <p className="sc-plan-desc">For clubs, tournaments, and serious players who want to broadcast.</p>
           

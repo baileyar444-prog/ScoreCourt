@@ -744,7 +744,7 @@ const Home = () => {
           <div className="sc-tier">
             <div className="sc-tierHeader">
               <p className="sc-tierName">Smart Clicker</p>
-              <p className="sc-tierPrice">$70</p>
+              <p className="sc-tierPrice">$40</p>
               <p className="sc-tierSub">One-time purchase</p>
             </div>
             <p className="sc-tierDesc">Pocket-sized remote so you can score without touching your phone.</p>
