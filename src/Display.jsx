@@ -394,6 +394,11 @@ export default function Display() {
       return `${sets} | ${games} | ${points}`;
     }
 
+    // Fix for Touch Footy to just show standard points
+    if (sport === "Touch Footy") {
+      return `${match.points?.[teamId] ?? 0}`;
+    }
+
     const gamesWon = (sport === "Volleyball" ? match?.volley?.sets?.[teamId] : match?.gamesWon?.[teamId]) || 0;
     return `${gamesWon} | ${match.points?.[teamId] ?? 0}`;
   };

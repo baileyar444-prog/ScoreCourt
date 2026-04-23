@@ -27,11 +27,11 @@ const Home = () => {
   const faqs = [
     {
       q: "Do I need hardware to use ScoreCourt?",
-      a: "Nope. You can score using your phone (Basic or Pro). Hardware is for the best experience — instant scoring, less distraction, fewer errors, and better venue/tournament reliability."
+      a: "Nope. You can score using your phone (Basic or Pro). Hardware is for the best experience - instant scoring, less distraction, fewer errors, and better venue/tournament reliability."
     },
     {
       q: "Can I run Display Mode on a TV?",
-      a: "Yes — anything with a browser works (TV with browser, laptop via HDMI, tablet, venue screen). Open Display on the big screen and keep Use App on a phone or clicker."
+      a: "Yes - anything with a browser works (TV with browser, laptop via HDMI, tablet, venue screen). Open Display on the big screen and keep Use App on a phone or clicker."
     },
     {
       q: "Does this work for live streaming on YouTube or Twitch?",
@@ -39,11 +39,11 @@ const Home = () => {
     },
     {
       q: "Why is this better than a normal scoring app?",
-      a: "Because it removes score friction. You get fast point entry, a public scoreboard everyone can see, and rules support that reduces human error — so games stay smooth and disputes drop."
+      a: "Because it removes score friction. You get fast point entry, a public scoreboard everyone can see, and rules support that reduces human error - so games stay smooth and disputes drop."
     },
     {
       q: "Is this for social play or competitive matches?",
-      a: "Both. Social players love the flow. Competitive players love the clarity and accuracy. Clubs love the pathway into multi-court and onboarding through ClubCourt."
+      a: "Both. Social players love the flow. Competitive players love the clarity and accuracy. Clubs love the simple pathway to multi-court setups."
     }
   ];
 
@@ -513,7 +513,7 @@ const Home = () => {
           
           <div className="sc-heroLeft">
             <div className="sc-kicker">ScoreCourt</div>
-            <h1 className="sc-title">The smart scoring solution that keeps the game moving — no debates, no delays.</h1>
+            <h1 className="sc-title">The smart scoring solution that keeps the game moving - no debates, no delays.</h1>
             <p className="sc-sub">
               The viral scoring solution taking courts around the world by storm.
               <br /><br />
@@ -556,7 +556,7 @@ const Home = () => {
           </div>
           <div className="sc-kpi" role="listitem">
             <b>Venue-ready</b>
-            <span>Perfect for clubs, tournaments, and multi-court setups with ClubCourt.</span>
+            <span>Perfect for clubs, tournaments, and multi-court setups.</span>
           </div>
         </div>
       </div>
@@ -595,7 +595,7 @@ const Home = () => {
           <p className="sc-sectionLabel">Perfect for</p>
           <h2 className="sc-sectionTitle">Built for every level of play</h2>
           <p className="sc-sectionSub">
-            ScoreCourt removes the annoying parts of scoring — making it the perfect scoring solution whether it’s a casual hit or a full comp night.
+            ScoreCourt removes the annoying parts of scoring - making it the perfect scoring solution whether it’s a casual hit or a full comp night.
           </p>
         </div>
 
@@ -614,7 +614,7 @@ const Home = () => {
           </div>
           <div className="sc-perfectCard">
             <b>Clubs & Venues</b>
-            <span>Run multiple courts, screens, and hardware — with a pathway into ClubCourt.</span>
+            <span>Run multiple courts, screens, and hardware.</span>
           </div>
         </div>
 
@@ -623,7 +623,6 @@ const Home = () => {
             Tip: clubs get the biggest benefit from Display Mode + clickers.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <Link className="sc-btn sc-btnGreen" to="/clubcourt">ClubCourt</Link>
             <Link className="sc-btn sc-btnGhost" to="/store">Hardware</Link>
           </div>
         </div>
@@ -635,7 +634,7 @@ const Home = () => {
           <p className="sc-sectionLabel">How it works</p>
           <h2 className="sc-sectionTitle">Fast setup, clean scoring</h2>
           <p className="sc-sectionSub">
-            A simple system: one screen controls scoring, one screen displays it. Hardware is optional — but makes it elite.
+            A simple system: one screen controls scoring, one screen displays it. Hardware is optional - but makes it elite.
           </p>
         </div>
 
@@ -759,23 +758,6 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="sc-tier">
-            <div className="sc-tierHeader">
-              <p className="sc-tierName">ClubCourt</p>
-              <p className="sc-tierPrice">Custom</p>
-              <p className="sc-tierSub">Tailored to your venue</p>
-            </div>
-            <p className="sc-tierDesc">Built exclusively as the ultimate scoring solution for clubs, tournaments, and large facilities.</p>
-            <ul className="sc-ul">
-              <li>Multi-court management</li>
-              <li>Bulk member onboarding</li>
-              <li>Hardware bundle discounts</li>
-              <li>Priority technical support</li>
-            </ul>
-            <div style={{ marginTop: "auto", paddingTop: 16 }}>
-              <Link className="sc-btn sc-btnGreen" style={{ width: "100%" }} to="/clubcourt">Enquire Now</Link>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -826,7 +808,7 @@ const Home = () => {
           <p className="sc-sectionLabel">Support & Enquiries</p>
           <h2 className="sc-sectionTitle">Get in Touch</h2>
           <p className="sc-sectionSub" style={{ margin: "0 auto", paddingBottom: "16px" }}>
-            Have a question about ScoreCourt, ClubCourt, or our hardware? Drop us an email and our team will get right back to you.
+            Have a question about ScoreCourt or our hardware? Drop us an email and our team will get right back to you.
           </p>
         </div>
         <a 

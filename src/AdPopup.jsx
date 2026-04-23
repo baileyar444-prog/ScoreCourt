@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-// 🔴 CHANGE THIS TO FALSE BEFORE YOU PUSH TO VERCEL 🔴
-const DEBUG_MODE = true; 
+// DEBUG_MODE turned OFF for production so Pro checks work properly
+const DEBUG_MODE = false; 
 
 const ads = [
   { 
@@ -68,8 +68,9 @@ const AdPopup = () => {
   const nextAdTimer = useRef(null);
   const countdownTimer = useRef(null);
 
-  const AD_COOLDOWN_MS = 3 * 60 * 1000; // 3 minutes
-  const AD_DURATION_MS = 30 * 1000;     // 30 seconds
+  // Increased cooldown to 10 minutes for free users
+  const AD_COOLDOWN_MS = 10 * 60 * 1000; 
+  const AD_DURATION_MS = 30 * 1000;     
 
   const closeAd = () => {
     setIsVisible(false);
@@ -79,16 +80,15 @@ const AdPopup = () => {
     clearInterval(countdownTimer.current);
 
     if (DEBUG_MODE) {
-      console.log("[AdPopup] Ad closed. DEBUG_MODE is on, bypassing 3-minute cooldown.");
-      nextAdTimer.current = setTimeout(triggerAd, 5000); // Pops up again in 5 seconds for testing
+      console.log("[AdPopup] Ad closed. DEBUG_MODE is on, bypassing cooldown.");
+      nextAdTimer.current = setTimeout(triggerAd, 5000); 
     } else {
-      console.log("[AdPopup] Ad closed. Next ad scheduled in 3 minutes.");
+      console.log("[AdPopup] Ad closed. Next ad scheduled in 10 minutes.");
       nextAdTimer.current = setTimeout(triggerAd, AD_COOLDOWN_MS);
     }
   };
 
   const triggerAd = () => {
-    // Safely get the next ad index, falling back to 0 if local storage is corrupted
     let nextIdx = parseInt(localStorage.getItem('sc_ad_index'), 10);
     if (isNaN(nextIdx) || nextIdx >= ads.length || nextIdx < 0) {
       nextIdx = 0;
@@ -120,7 +120,7 @@ const AdPopup = () => {
   };
 
   useEffect(() => {
-    if (loading) return; // Wait until AuthContext figures out who the user is
+    if (loading) return; 
 
     if (DEBUG_MODE) {
       console.log("[AdPopup] DEBUG_MODE is ON. Bypassing Pro checks and forcing ad to show instantly.");
