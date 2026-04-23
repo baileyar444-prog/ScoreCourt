@@ -639,7 +639,7 @@ export default function Display() {
 
                   <div className="disp-score">{getScoreString(id)}</div>
 
-                  <div className="disp-serve-row" style={{ visibility: isServing ? "visible" : "hidden" }}>
+                  <div className="disp-serve-row" style={{ visibility: (isServing && sport !== "Touch Footy") ? "visible" : "hidden" }}>
                     <span className="disp-player">{serverName} SERVING</span>
                     {serveDetail.side && (
                       <div className="disp-sidebox">{serveDetail.side === "R" ? "RIGHT" : "LEFT"}</div>

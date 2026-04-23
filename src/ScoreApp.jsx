@@ -1263,7 +1263,7 @@ export default function ScoreApp() {
                     <div className="teamTitle">
                       <span className={`dot dot${team}`} style={{ backgroundColor: team === "A" ? TEAM_A_HEX : TEAM_B_HEX }} />
                       <strong>{match.teams[team].name}</strong>
-                      {isServing ? <span className="badge badgeServe" style={{ backgroundColor: "#f39c12", color: WHITE }}>Serving</span> : null}
+                      {isServing && match.sport !== "Touch Footy" ? <span className="badge badgeServe" style={{ backgroundColor: "#f39c12", color: WHITE }}>Serving</span> : null}
                     </div>
                     <span className="badge">Team {team}</span>
                   </div>
